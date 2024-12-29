@@ -1,0 +1,250 @@
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<div class="container bg-base-200 rounded-lg shadow-lg p-0 mx-auto max-w-7xl mb-10">
+  <div class="bg-maroon text-white p-4 rounded-t-lg w-full">
+    <h1 class="text-2xl font-bold">Education</h1>
+  </div>
+
+  <ng-container *ngIf="!isEditing; else editForm">
+    <!-- Display mode -->
+    <div *ngIf="educationData.length > 0" class="p-6">
+      <table class="table w-full">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Level</th>
+            <th>Name of School</th>
+            <th>Course/Details</th>
+            <th>Additional Information</th>
+            <th>Year Graduated</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let education of educationData; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ education.Level }}</td>
+            <td>{{ education.NameOfSchool || 'N/A' }}</td>
+            
+            <td>
+              <ng-container [ngSwitch]="education.Level">
+                <span *ngSwitchCase="'Bachelors Degree'">
+                  {{ education.Course || 'N/A' }}
+                </span>
+                
+                <span *ngSwitchCase="'Masters'">
+                  {{ education.ThesisType || 'N/A' }}
+                </span>
+                
+                <span *ngSwitchCase="'Doctoral'">
+                  {{ education.ThesisType || 'N/A' }}<br>
+                  Units: {{ education.UnitsEarned || 'N/A' }}
+                </span>
+                
+                <span *ngSwitchDefault>N/A</span>
+              </ng-container>
+            </td>
+            
+            <td>
+              <ng-container *ngIf="['Post-Baccalaureate', 'Masters', 'Doctoral'].includes(education.Level)">
+                Support: {{ education.MeansOfEducationSupport || 'N/A' }}<br>
+                Agency: {{ education.FundingAgency || 'N/A' }}<br>
+                Duration: {{ education.DurationOfFundingSupport || 'N/A' }}
+              </ng-container>
+              <ng-container *ngIf="!['Post-Baccalaureate', 'Masters', 'Doctoral'].includes(education.Level)">
+                N/A
+              </ng-container>
+            </td>
+            
+            <td>{{ education.YearGraduated || 'N/A' }}</td>
+            <td>
+              <button class="btn btn-edit btn-sm mr-2" (click)="toggleForm(education.EducationID!)">EDIT</button>
+              <button class="btn btn-delete btn-sm" (click)="deleteEducation(education.EducationID!)">DELETE</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="flex justify-end mt-4">
+        <button class="btn btn-add-info bg-maroon text-white hover:bg-maroon-dark transition duration-300 ease-in-out" (click)="toggleForm()">Add Education</button>
+      </div>
+    </div>
+
+    <div *ngIf="educationData.length === 0" class="p-6 space-y-6">
+      <div class="p-6 bg-white rounded-lg shadow-lg">
+        <p class="text-lg">No education information available.</p>
+      </div>
+      <div class="flex justify-end">
+        <button class="btn btn-add-info bg-maroon text-white hover:bg-maroon-dark transition duration-300 ease-in-out" (click)="toggleForm()">Add Education</button>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-template #editForm>
+    <div class="p-6 space-y-8">
+      <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4" role="alert">
+        <p class="font-bold">Note: You are currently editing your Education Details.</p>
+      </div>
+      <form [formGroup]="educationForm" (ngSubmit)="onSubmit()" class="bg-white rounded-lg shadow-md p-6">
+        <h2 class="text-xl font-semibold mb-4 text-maroon">{{ currentEducationId ? 'Edit' : 'Add' }} Education</h2>
+        
+        <!-- Level Selection -->
+        <div class="grid grid-cols-2 gap-4">
+          <div class="form-control">
+            <label class="label-text">Level <span class="text-red-500">*</span></label>
+            <select formControlName="Level" class="select select-bordered w-full" 
+                    [ngClass]="{'select-error': educationForm.get('Level')?.invalid && educationForm.get('Level')?.touched}">
+              <option value="">Select Level</option>
+              <option *ngFor="let level of levels" [value]="level">{{ level }}</option>
+            </select>
+            <div *ngIf="educationForm.get('Level')?.invalid && educationForm.get('Level')?.touched" 
+                 class="text-red-500 text-sm mt-1">
+              Level is required
+            </div>
+          </div>
+
+          <!-- Name of School -->
+          <div class="form-control">
+            <label class="label-text">Name of School <span class="text-red-500">*</span></label>
+            <input formControlName="NameOfSchool" 
+                   class="input input-bordered w-full" 
+                   type="text" 
+                   placeholder="Enter school name">
+          </div>
+
+          <!-- Conditional Fields based on Level -->
+          <ng-container [ngSwitch]="educationForm.get('Level')?.value">
+            <!-- For Bachelors Degree -->
+            <div *ngSwitchCase="'Bachelors Degree'" class="form-control">
+              <label class="label-text">Course <span class="text-red-500">*</span></label>
+              <input formControlName="Course" 
+                     class="input input-bordered w-full" 
+                     type="text" 
+                     placeholder="Enter course">
+            </div>
+
+            <!-- For Masters and Doctoral -->
+            <div *ngIf="['Masters', 'Doctoral'].includes(educationForm.get('Level')?.value)" class="form-control">
+              <label class="label-text">Thesis Type <span class="text-red-500">*</span></label>
+              <select formControlName="ThesisType" class="select select-bordered w-full">
+                <option value="">Select Type</option>
+                <option value="Thesis">Thesis</option>
+                <option value="Non-Thesis">Non-Thesis</option>
+              </select>
+            </div>
+
+            <!-- For Post-Baccalaureate, Masters, and Doctoral -->
+            <ng-container *ngIf="['Post-Baccalaureate', 'Masters', 'Doctoral'].includes(educationForm.get('Level')?.value)">
+              <div class="form-control">
+                <label class="label-text">Means of Education Support <span class="text-red-500">*</span></label>
+                <div class="space-y-2">
+                  <div class="flex items-center" *ngFor="let support of meansOfSupport">
+                    <input type="checkbox"
+                           [id]="'support-' + support"
+                           [value]="support"
+                           (change)="onSupportChange($event)"
+                           [checked]="isChecked(support)"
+                           class="checkbox checkbox-sm mr-2">
+                    <label [for]="'support-' + support" class="cursor-pointer">{{ support }}</label>
+                  </div>
+                </div>
+                <div *ngIf="educationForm.get('MeansOfEducationSupport')?.invalid && 
+                            educationForm.get('MeansOfEducationSupport')?.touched" 
+                     class="text-red-500 text-sm mt-1">
+                  Please select at least one means of support
+                </div>
+              </div>
+
+              <div class="form-control">
+                <label class="label-text">Funding Agency <span class="text-red-500">*</span></label>
+                <input formControlName="FundingAgency" 
+                       class="input input-bordered w-full" 
+                       type="text" 
+                       placeholder="Enter funding agency">
+              </div>
+
+              <div class="form-control">
+                <label class="label-text">Duration of Funding Support <span class="text-red-500">*</span></label>
+                <input formControlName="DurationOfFundingSupport" 
+                       class="input input-bordered w-full" 
+                       type="text" 
+                       placeholder="Enter duration">
+              </div>
+            </ng-container>
+
+            <!-- For Doctoral only -->
+            <div *ngSwitchCase="'Doctoral'" class="form-control">
+              <label class="label-text">Units Earned <span class="text-red-500">*</span></label>
+              <input formControlName="UnitsEarned" 
+                     class="input input-bordered w-full" 
+                     type="text" 
+                     placeholder="Enter units earned">
+            </div>
+          </ng-container>
+
+          <!-- Year Graduated -->
+          <div class="form-control">
+            <label class="label-text">Year Graduated <span class="text-red-500">*</span></label>
+            <input formControlName="YearGraduated" 
+                   class="input input-bordered w-full" 
+                   type="text" 
+                   placeholder="Enter year graduated">
+          </div>
+        </div>
+
+        <!-- Form Actions -->
+        <div class="flex justify-end mt-6">
+          <button type="submit" class="btn btn-save mr-4">{{ currentEducationId ? 'Update' : 'Save' }}</button>
+          <button type="button" class="btn btn-cancel" (click)="toggleForm()">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </ng-template>
+</div>
+
+<!-- Toast Notifications -->
+<div *ngIf="showToast" class="toast toast-end">
+  <div *ngIf="toastType === 'success'" class="alert alert-success">
+    <span>{{ toastMessage }}</span>
+  </div>
+  <div *ngIf="toastType === 'error'" class="alert alert-error">
+    <span>{{ toastMessage }}</span>
+  </div>
+  <div *ngIf="toastType === 'warning'" class="alert alert-warning">
+    <span>{{ toastMessage }}</span>
+  </div>
+</div>
+
+<!-- Add this at the end of the file -->
+<ng-template #noInfo>
+  <span class="no-info">No information entered</span>
+</ng-template>
+
+<!-- Add this delete confirmation modal -->
+<div *ngIf="showDeletePrompt" class="modal modal-open">
+  <div class="modal-box max-w-md bg-white rounded-lg shadow-lg">
+    <!-- Header -->
+    <div class="bg-red-900 text-white p-4 -m-6 mb-6 rounded-t-lg">
+      <h3 class="font-bold text-xl">Confirm Deletion</h3>
+    </div>
+    
+    <!-- Content -->
+    <div class="py-4">
+      <div class="mb-4 text-red-600">
+        <p class="font-medium">Are you sure you want to delete this record?</p>
+      </div>
+      <p class="text-gray-600">This action cannot be undone.</p>
+    </div>
+
+    <!-- Actions -->
+    <div class="flex justify-end space-x-4 mt-6 pt-4 border-t border-gray-200">
+      <button class="px-4 py-2 bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 transition-colors"
+              (click)="cancelDelete()">
+        Cancel
+      </button>
+      <button class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors"
+              (click)="confirmDelete()">
+        Delete
+      </button>
+    </div>
+  </div>
+</div>

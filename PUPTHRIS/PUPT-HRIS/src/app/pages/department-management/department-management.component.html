@@ -1,0 +1,88 @@
+<div class="container bg-base-200 rounded-lg shadow-lg p-0 mx-auto max-w-7xl mb-10">
+  <div class="bg-maroon text-white p-4 rounded-t-lg w-full">
+    <h1 class="text-2xl font-bold">Manage Departments</h1>
+  </div>
+
+  <div class="p-6 space-y-6">
+    <div *ngIf="departments.length > 0" class="px-10 pb-4">
+      <table class="table table-zebra w-full border-separate border-spacing-0">
+        <thead>
+          <tr class="bg-maroon text-white">
+            <th class="p-4">#</th>
+            <th class="p-4">Department Name</th>
+            <th class="p-4">Description</th>
+            <th class="p-4 w-36">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let department of departments; let i = index" class="hover:bg-gray-100">
+            <td class="p-4">{{ i + 1 }}</td>
+            <td class="p-4">{{ department.DepartmentName }}</td>
+            <td class="p-4">{{ department.Description }}</td>
+            <td class="p-4">
+              <div class="btn-container">
+                <button class="btn btn-edit btn-sm" (click)="editDepartment(department)">Edit</button>
+                <button class="btn btn-delete btn-sm" (click)="deleteDepartment(department.DepartmentID)">Delete</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="mt-4 flex justify-end">
+        <button class="btn btn-save" (click)="openAddModal()">Add New Department</button>
+      </div>
+    </div>
+
+    <div *ngIf="departments.length === 0" class="p-6 space-y-6">
+      <div class="p-6 bg-white rounded-lg shadow-lg">
+        <p class="text-lg">No departments found.</p>
+        <div class="mt-4">
+          <button class="btn btn-save" (click)="openAddModal()">Add New Department</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Add/Edit Modal HTML -->
+<div *ngIf="showModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+  <div class="bg-white rounded-lg p-6 w-full max-w-2xl">
+    <h2 class="text-2xl font-bold mb-4 text-maroon">
+      {{ isEditing ? 'Edit Department' : 'Add New Department' }}
+    </h2>
+    
+    <form [formGroup]="departmentForm" (ngSubmit)="onSubmit()" class="space-y-4">
+      <div class="form-control">
+        <label for="DepartmentName" class="label-text font-bold">
+          Department Name <span class="text-red-500">*</span>
+        </label>
+        <input id="DepartmentName" formControlName="DepartmentName" class="input input-bordered w-full" placeholder="Enter department name" />
+      </div>
+      
+      <div class="form-control">
+        <label for="Description" class="label-text font-bold">Description</label>
+        <input id="Description" formControlName="Description" class="input input-bordered w-full" placeholder="Enter department description" />
+      </div>
+      
+      <div class="flex justify-end gap-2">
+        <button type="submit" class="btn btn-save">
+          {{ isEditing ? 'Update Department' : 'Add Department' }}
+        </button>
+        <button type="button" class="btn btn-cancel" (click)="closeModal()">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Toast Notifications -->
+<div *ngIf="showToast" class="toast toast-end">
+  <div *ngIf="toastType === 'success'" class="alert alert-success">
+    <span>{{ toastMessage }}</span>
+  </div>
+  <div *ngIf="toastType === 'error'" class="alert alert-error">
+    <span>{{ toastMessage }}</span>
+  </div>
+  <div *ngIf="toastType === 'warning'" class="alert alert-warning">
+    <span>{{ toastMessage }}</span>
+  </div>
+</div>

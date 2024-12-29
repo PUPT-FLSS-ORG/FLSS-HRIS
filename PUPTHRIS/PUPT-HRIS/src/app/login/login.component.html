@@ -1,0 +1,95 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<div class="min-h-screen bg-red-700 flex items-center justify-center" @fadeInOut>
+  <div class="flex flex-1 items-center justify-center bg-red-700 max-w-5xl">
+    <div class="flex-1 flex items-center justify-center bg-red-700 p-6">
+      <div class="bg-white rounded-lg shadow-lg p-5 w-full h-full flex items-center justify-center">
+        <div class="w-full h-full relative">
+          <div class="carousel">
+            <img [src]="images[currentImageIndex].src" [alt]="images[currentImageIndex].alt" class="w-full h-full object-cover rounded-lg carousel-image">
+            <button (click)="prevImage()" class="carousel-button left-4">&lt;</button>
+            <button (click)="nextImage()" class="carousel-button right-4">&gt;</button>
+            <div class="carousel-indicators">
+              <span *ngFor="let image of images; let i = index" 
+                    [class.active]="i === currentImageIndex"
+                    (click)="setCurrentImage(i)"
+                    class="dot">
+              </span>
+            </div>
+          </div>
+          <p class="text-center font-bold mt-4">Polytechnic University of the Philippines</p>
+        </div>
+      </div>
+    </div>
+    <div class="flex-1 flex items-center justify-center bg-red-700 p-4">
+      <div class="bg-white rounded-lg shadow-lg p-16 w-full h-full flex items-center justify-center">
+        <div class="w-full">
+          <!-- PUP Logo and Title -->
+          <div class="flex items-center justify-center mb-4">
+            <img src="assets/PUPLogo.svg" alt="PUP Logo" class="w-14 h-14 mr-4">
+            <h1 class="text-3xl font-bold text-black">PUP HR INFO SYSTEM</h1>
+          </div>
+          
+          <div class="divider"></div>
+          <!-- Sign In Section -->
+          <div class="flex items-center justify-center mt-6">
+            <h2 class="text-3xl font-bold ml-4">Sign In</h2>
+          </div>
+          <form [formGroup]="loginForm" (ngSubmit)="login()">
+            <div *ngIf="errorMessage" class="bg-red-100 text-red-700 p-2 mb-4 rounded">
+              <p>{{ errorMessage }}</p>
+            </div>
+            <div class="form-control mb-4">
+              <label class="label">
+                <span class="label-text text-lg">
+                  <i class="fas fa-user"></i> Email
+                </span>
+              </label>
+              <input type="email" name="email" formControlName="email" placeholder="Input your Email..." class="input input-bordered w-full">
+              <div *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" class="text-red-600">
+                <small *ngIf="loginForm.get('email')?.errors?.['required']">Email is required</small>
+                <small *ngIf="loginForm.get('email')?.errors?.['email']">Please enter a valid email</small>
+              </div>
+            </div>
+            <div class="form-control mb-6">
+              <label class="label">
+                <span class="label-text text-lg">
+                  <i class="fas fa-lock"></i> Password
+                </span>
+              </label>
+              <div class="relative">
+                <input [type]="showPassword ? 'text' : 'password'" name="password" formControlName="password" placeholder="Input your Password..." class="input input-bordered w-full pr-10">
+                <button type="button" (click)="togglePasswordVisibility()" class="absolute inset-y-0 right-0 pr-3 flex items-center">
+                  <i [class]="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+                </button>
+              </div>
+              <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="text-red-600">
+                <small *ngIf="loginForm.get('password')?.errors?.['required']">Password is required</small>
+                <small *ngIf="loginForm.get('password')?.errors?.['minlength']">Password must be at least 6 characters</small>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-block text-white" [disabled]="loginForm.invalid">Log In</button>
+            <div class="flex justify-center pt-4 mb-4">
+              <a routerLink="/forgot-password" class="text-blue-500 hover:underline">Forgot Password?</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Update the loading overlay section -->
+<div class="loading-overlay" *ngIf="isLoading">
+  <div class="flex flex-col items-center">
+    <div *ngIf="!loginSuccess" class="loading-spinner"></div>
+    <div *ngIf="loginSuccess" class="mini-loading" [class.show]="isLoading && !loginSuccess"></div>
+    <div *ngIf="loginSuccess" class="success-container">
+      <i class="fas fa-check success-checkmark"></i>
+    </div>
+    <div class="loading-text">
+      {{ loginSuccess ? 'Login Successful!' : 'Logging in...' }}
+    </div>
+  </div>
+</div>

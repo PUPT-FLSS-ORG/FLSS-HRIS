@@ -1,0 +1,26 @@
+<div class="profile-image-container h-full flex flex-col">
+  <h3 class="profile-header">Profile Image</h3>
+
+  <div class="profile-img-wrapper flex-grow flex items-center justify-center">
+    <img [src]="profileImageUrl || 'assets/default-profile.png'" alt="Profile Image" class="profile-img" />
+  </div>
+
+  <div class="profile-actions mt-auto">
+    <ng-container *ngIf="!isUpdatingImage; else updateButtons">
+      <button (click)="startUpdatingImage()" class="btn btn-update">Update Image</button>
+    </ng-container>
+
+    <ng-template #updateButtons>
+      <div class="update-buttons">
+        <label for="profileImageUpload" class="btn btn-upload">Upload New Image</label>
+        <input type="file" id="profileImageUpload" (change)="onFileSelected($event)" hidden>
+        <button class="btn btn-cancel" (click)="cancelUpdateImage()">Cancel</button>
+      </div>
+    </ng-template>
+  </div>
+</div>
+
+<!-- Toast Notification -->
+<div *ngIf="showToast" class="toast">
+  {{ toastMessage }}
+</div>

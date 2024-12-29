@@ -1,0 +1,336 @@
+* {
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  .bg-base-200 {
+    background-color: #f9f9f9;
+  }
+  
+  .bg-maroon {
+    background-color: #800000;
+  }
+  
+  .text-white {
+    color: #ffffff;
+  }
+  
+  .p-4 {
+    padding: 16px;
+  }
+  
+  .rounded-lg {
+    border-radius: 10px;
+  }
+  
+  .shadow-lg {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .table thead {
+    background-color: #800000;
+    color: white;
+  }
+  
+  .table th,
+  .table td {
+    padding: 12px 16px;
+    text-align: left;
+  }
+  
+  .table tbody tr:nth-child(even) {
+    background-color: #f3f4f6;
+  }
+  
+  .table tbody tr:hover {
+    background-color: #e5e7eb;
+  }
+  
+  .btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .btn-sm {
+    padding: 0.25rem 0.75rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    border-radius: 0.25rem;
+  }
+  
+  .btn-save {
+    background-color: #0d6efd;
+    color: white;
+    border: none;
+    transition: background-color 0.2s;
+  }
+  
+  .btn-save:hover:not(:disabled) {
+    background-color: #0b5ed7;
+  }
+  
+  .btn-save:disabled {
+    background-color: #e2e8f0;
+    color: #94a3b8;
+    cursor: not-allowed;
+    border: none;
+  }
+  
+  .btn-error {
+    background-color: #ef4444;
+    color: white;
+  }
+  
+  .btn-error:hover {
+    background-color: #dc2626;
+  }
+  
+  .btn-success {
+    background-color: #10b981;
+    color: white;
+  }
+  
+  .btn-success:hover {
+    background-color: #059669;
+  }
+  
+  .btn-container {
+    display: flex;
+    gap: 10px;
+  }
+
+  .toast {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+  }
+
+  .alert {
+    padding: 1rem;
+    border-radius: 0.5rem;
+    color: white;
+  }
+
+  .alert-success {
+    background-color: #10B981;
+  }
+
+  .alert-error {
+    background-color: #EF4444;
+  }
+
+  .alert-warning {
+    background-color: #F59E0B;
+  }
+
+  .relative {
+    position: relative;
+    width: 100%;
+  }
+
+  input[type="text"] {
+    padding-left: 30px;
+    font-size: 14px;
+    height: 36px;
+    width: 100%;
+  }
+
+  .fas.fa-search {
+    font-size: 14px;
+  }
+
+  .mb-4 {
+    width: 100%;
+  }
+
+  .user-management-content {
+    max-width: 95%;
+    margin: 0 auto;
+  }
+
+  .pagination-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .pagination-controls button {
+    margin: 0 0.125rem;
+    padding: 0.25rem 0.5rem;
+    background-color: #f3f4f6;
+    border: 1px solid #d1d5db;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    color: #374151;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+  }
+
+  .pagination-controls button:hover:not(:disabled) {
+    background-color: #000000;
+    color: white;
+  }
+
+  .pagination-controls button.active {
+    background-color: #800000;
+    color: white;
+  }
+
+  .pagination-controls button:disabled {
+    background-color: #e5e7eb;
+    color: #9ca3af;
+    cursor: not-allowed;
+  }
+
+  .pagination-wrapper {
+    background-color: #f3f4f6;
+    padding: 0.5rem 0.5rem 1rem 0.5rem;
+    border-top: 1px solid #e5e7eb;
+    margin-top: -1rem;
+  }
+
+  .bg-gray-200 {
+    background-color: #e5e7eb;
+  }
+
+  .text-gray-700 {
+    color: #374151;
+  }
+
+  .hover\:bg-gray-300:hover {
+    background-color: #d1d5db;
+  }
+
+  .pagination-wrapper {
+    background-color: #f3f4f6;
+    padding: 0.5rem 0.5rem 1rem 0.5rem;
+    border-top: 1px solid #e5e7eb;
+  }
+
+  .pagination-btn {
+    padding: 0.25rem 0.75rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    border-radius: 0.25rem;
+    background-color: #800000;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+
+  .pagination-btn:hover:not(.disabled) {
+    background-color: #600000; 
+  }
+
+  .pagination-btn.active {
+    background-color: #000000; 
+  }
+
+  .pagination-btn.active:hover {
+    background-color: #600000; 
+  }
+
+  .pagination-btn.disabled {
+    background-color: #d1d5db;
+    color: #9ca3af;
+    cursor: not-allowed;
+  }
+
+  .pagination-btn.disabled:hover {
+    background-color: #d1d5db; 
+  }
+
+  @keyframes slideDown {
+    from {
+      transform: translateY(-20px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideUp {
+    from {
+      transform: translateY(20px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  .container {
+    animation: slideDown 0.3s ease-out;
+  }
+
+  .mb-4 {
+    animation: fadeIn 0.4s ease-out forwards;
+    animation-delay: 0.1s;
+    opacity: 0;
+  }
+
+  .table {
+    animation: slideUp 0.4s ease-out forwards;
+    animation-delay: 0.2s;
+    opacity: 0;
+  }
+
+  .pagination-wrapper {
+    animation: fadeIn 0.4s ease-out forwards;
+    animation-delay: 0.3s;
+    opacity: 0;
+  }
+
+  .toast {
+    animation: slideUp 0.3s ease-out;
+  }
+
+  .modal-overlay {
+    animation: fadeIn 0.2s ease-out;
+  }
+
+  .modal-content {
+    animation: slideDown 0.2s ease-out;
+  }
+
+  .btn-save:disabled {
+    border: 1px solid #cbd5e1;
+  }
+
+
+  .modal-overlay {
+    animation: fadeIn 0.2s ease-out;
+  }
+
+  .modal-content {
+    animation: slideDown 0.2s ease-out;
+  }
+
+  .btn-save:disabled {
+    border: 1px solid #cbd5e1;
+  }

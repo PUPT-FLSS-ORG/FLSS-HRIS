@@ -1,0 +1,334 @@
+@use "../../../styles/mixins";
+
+*,
+*::before {
+  @include mixins.default-transition;
+}
+
+:host {
+  @include mixins.custom-spinner(white);
+}
+
+.login-container {
+  display: flex;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  padding: var(--spacing-lg);
+  box-sizing: border-box;
+  transition: background-image 1s ease-in-out;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--blur-bg);
+    backdrop-filter: blur(50px) saturate(150%);
+    z-index: 1;
+  }
+}
+
+.login-image-section,
+.login-main-section {
+  position: relative;
+  z-index: 2;
+}
+
+/* ------- LOGIN IMAGE SECTION STYLING ------- */
+.login-image-section {
+  padding: var(--spacing-lg);
+  flex: 60%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  app-slideshow {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+/* ------- LOGIN FORM SECTION STYLING ------- */
+
+.login-main-section {
+  @include mixins.flex-layout(
+    $direction: column,
+    $align: center,
+    $justify: flex-start,
+    $gap: var(--spacing-lg)
+  );
+  padding: var(--spacing-2xl);
+  flex: 40%;
+  width: 100%;
+
+  overflow: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Login Header Section */
+  .header-section {
+    @include mixins.flex-layout($gap: var(--spacing-lg));
+    width: inherit;
+    text-align: left;
+
+    .university-logo {
+      width: 4.5rem;
+      height: auto;
+    }
+
+    .header-text {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: var(--spacing-xxs);
+    }
+
+    .university-name,
+    .system-name {
+      font-family: var(--font-header);
+      font-size: var(--font-size-md);
+      font-weight: 600;
+    }
+
+    .university-name {
+      color: var(--primary-text);
+    }
+  }
+
+  /* Login Features Section */
+  .features-section {
+    @include mixins.flex-layout(
+      $direction: column,
+      $align: center,
+      $justify: center,
+      $gap: var(--spacing-xl)
+    );
+    padding: var(--spacing-xl) 0;
+    width: inherit;
+
+    .feature-item {
+      @include mixins.flex-layout(
+        $direction: row,
+        $align: center,
+        $justify: flex-start,
+        $gap: var(--spacing-xs)
+      );
+      border-radius: var(--border-radius-lg);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      width: fit-content;
+
+      .feature-icon-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 3.5rem;
+        height: 3.5rem;
+        border-radius: var(--border-radius-md);
+        background: var(--surface-card);
+        transition: background 0.3s ease;
+
+        span[mat-symbol] {
+          font-size: var(--font-size-xl);
+          width: auto;
+          height: auto;
+          color: var(--primary-text);
+          transition: transform 0.3s ease;
+        }
+      }
+
+      .feature-content {
+        flex: 1;
+        text-align: justify;
+
+        h3 {
+          font-size: var(--font-size-lg);
+          font-weight: 500;
+          color: var(--primary-text);
+          margin: 0 0 var(--spacing-xxxs) 0;
+          letter-spacing: var(--letter-spacing-xxs);
+        }
+
+        p {
+          font-size: var(--font-size-md);
+          color: var(--neutral-base);
+          line-height: 1.5;
+          margin: 0;
+          letter-spacing: var(--letter-spacing-xs);
+        }
+      }
+    }
+  }
+
+  /* Login Buttons Section */
+  .buttons-section {
+    width: 100%;
+    @include mixins.flex-layout($gap: var(--spacing-md));
+
+    .login-button {
+      @include mixins.flex-layout(
+        $direction: row-reverse,
+        $gap: var(--spacing-md)
+      );
+      width: inherit;
+      font-size: var(--font-size-mdx);
+      padding: var(--spacing-lg);
+      letter-spacing: var(--letter-spacing-xs);
+
+      &.faculty {
+        @include mixins.gradient-primary(315deg);
+      }
+
+      &.admin {
+        @include mixins.gradient-secondary(315deg);
+      }
+    }
+
+    .button-text {
+      @include mixins.flex-layout($gap: var(--spacing-xs));
+    }
+  }
+
+  .toggle-theme-section {
+    width: inherit;
+    @include mixins.flex-layout($justify: flex-end, $gap: var(--spacing-md));
+
+    .toggle-button {
+      &.light-theme {
+        color: var(--primary-text);
+
+        mat-icon {
+          color: var(--primary-one);
+        }
+      }
+
+      &.dark-theme {
+        color: var(--secondary-text);
+
+        mat-icon {
+          color: var(--secondary-text);
+        }
+      }
+    }
+  }
+}
+
+// =============
+// Media Queries
+// =============
+
+@media screen and (max-width: 1500px) {
+  .login-main-section {
+    .header-section {
+      @include mixins.flex-layout($direction: column, $gap: var(--spacing-sm));
+
+      .university-name,
+      .system-name {
+        text-align: center;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .login-container {
+    padding: var(--spacing-md);
+  }
+
+  .login-image-section {
+    display: none;
+  }
+
+  .login-main-section {
+    padding: var(--spacing-lg);
+    width: 100%;
+    align-items: center;
+  }
+
+  .header-section {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+
+    .university-logo {
+      width: 3rem;
+    }
+
+    .header-text {
+      gap: var(--spacing-xs);
+    }
+
+    .university-name,
+    .system-name {
+      font-size: var(--font-size-sm);
+      text-align: center;
+    }
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .login-container {
+    padding: var(--spacing-sm);
+  }
+
+  .login-main-section {
+    padding: var(--spacing-sm);
+    align-items: center;
+  }
+
+  .header-section {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+
+    .university-logo {
+      width: 2.5rem;
+    }
+
+    .university-name,
+    .system-name {
+      font-size: var(--font-size-xs);
+      text-align: center;
+    }
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .login-container {
+    padding: var(--spacing-xs);
+  }
+
+  .login-main-section {
+    padding: var(--spacing-xs);
+    align-items: center;
+  }
+
+  .header-section {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+
+    .university-logo {
+      width: 2rem;
+    }
+
+    .header-text {
+      gap: var(--spacing-xxs);
+    }
+
+    .university-name,
+    .system-name {
+      font-size: var(--font-size-xxs);
+      text-align: center;
+    }
+  }
+}

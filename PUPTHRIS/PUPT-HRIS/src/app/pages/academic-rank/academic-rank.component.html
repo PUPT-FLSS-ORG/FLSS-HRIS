@@ -1,0 +1,76 @@
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<div class="container bg-base-200 rounded-lg shadow-lg p-0 mx-auto max-w-7xl mb-10">
+  <div class="bg-maroon text-white p-4 rounded-t-lg w-full">
+    <h1 class="text-2xl font-bold">Academic Rank</h1>
+  </div>
+
+  <ng-container *ngIf="!isEditing; else editForm">
+    <div *ngIf="academicRank" class="p-6 space-y-8">
+      <div class="bg-white rounded-lg shadow-md p-6">
+        <h2 class="text-xl font-semibold mb-4 text-maroon">Current Rank</h2>
+        <div class="flex flex-col border-b pb-2">
+          <span class="text-gray-600 font-medium text-sm">Academic Rank</span>
+          <span class="text-gray-900 font-semibold">{{ academicRank.Rank }}</span>
+        </div>
+      </div>
+      <div class="flex justify-end">
+        <button class="btn btn-edit hover:bg-gray-800 transition duration-300 ease-in-out" (click)="edit()">Edit</button>
+      </div>
+    </div>
+
+    <div *ngIf="!academicRank" class="p-6 space-y-6">
+      <div class="p-6 bg-white rounded-lg shadow-lg">
+        <p class="text-lg">No academic rank available.</p>
+      </div>
+      <div class="flex justify-end">
+        <button class="btn btn-add-info bg-maroon text-white hover:bg-maroon-dark transition duration-300 ease-in-out" (click)="edit()">Add Info</button>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-template #editForm>
+    <div class="p-6 space-y-8">
+      <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4" role="alert">
+        <p class="font-bold">Note: You are currently editing your Academic Rank.</p>
+      </div>
+      <form [formGroup]="academicRankForm" (ngSubmit)="onSubmit()">
+        <div class="bg-white rounded-lg shadow-md p-6">
+          <h2 class="text-xl font-semibold mb-4 text-maroon">Academic Rank</h2>
+          <div class="form-control">
+            <label class="label-text">Academic Rank <span class="text-red-500">*</span></label>
+            <select 
+              formControlName="Rank" 
+              class="select select-bordered w-full" 
+              [ngClass]="{'border-red-500': academicRankForm.get('Rank')?.invalid && submitted}"
+              required>
+              <option value="">Select Rank</option>
+              <option *ngFor="let rank of academicRanks" [value]="rank">{{ rank }}</option>
+            </select>
+            <div *ngIf="academicRankForm.get('Rank')?.invalid && submitted" class="text-red-500 text-sm mt-1">
+              Academic Rank is required.
+            </div>
+          </div>
+        </div>
+
+        <div class="flex justify-end mt-6">
+          <button type="submit" class="btn btn-save mr-4">Save</button>
+          <button type="button" class="btn btn-cancel" (click)="cancelEdit()">Cancel</button>
+        </div>        
+      </form>
+    </div>
+  </ng-template>
+</div>
+
+<!-- Toast Notifications -->
+<div *ngIf="showToast" class="toast toast-end">
+  <div *ngIf="toastType === 'success'" class="alert alert-success">
+    <span>{{ toastMessage }}</span>
+  </div>
+  <div *ngIf="toastType === 'error'" class="alert alert-error">
+    <span>{{ toastMessage }}</span>
+  </div>
+  <div *ngIf="toastType === 'warning'" class="alert alert-warning">
+    <span>{{ toastMessage }}</span>
+  </div>
+</div>

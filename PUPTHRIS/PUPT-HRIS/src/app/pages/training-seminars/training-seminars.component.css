@@ -1,0 +1,453 @@
+* {
+  font-family: 'Poppins', sans-serif;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #f0f0f0;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 1350px;
+  margin: 0 auto;
+  padding: 20px;
+  animation: slideDown 0.3s ease-out;
+}
+
+.header {
+  background-color: #800000;
+  color: white;
+  padding: 20px;
+  border-radius: 8px 8px 0 0;
+  animation: slideDown 0.3s ease-out;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.content {
+  background-color: #f0f0f0;
+  border-radius: 0 0 8px 8px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.3s ease-out forwards;
+  opacity: 0;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+
+.btn-primary {
+  background-color: #000000;
+  color: white;
+}
+
+.btn-secondary {
+  background-color: #800000;
+  color: white;
+}
+
+.btn-primary:hover, .btn-secondary:hover {
+  opacity: 0.9;
+}
+
+.card {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  animation: fadeIn 0.3s ease-out forwards;
+  opacity: 0;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  animation: fadeIn 0.3s ease-out forwards;
+  opacity: 0;
+}
+
+.table th, .table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.table th {
+  background-color: #800000;
+  color: white;
+  font-weight: 600;
+  padding: 12px;
+  text-align: left;
+}
+
+/* Zebra striping for table rows */
+.table tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.table tbody tr:nth-child(odd) {
+  background-color: #ffffff;
+}
+
+/* Add a hover effect for better user experience */
+.table tbody tr:hover {
+  background-color: #e6e6e6;
+}
+
+.btn-edit, .btn-delete {
+  padding: 5px 10px;  /* Increased padding for better clickability */
+  margin-right: 5px;
+  border: none;
+  border-radius: 4px;
+  font-size: 12px;  /* Slightly larger font size for better readability */
+  font-weight: 600;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  line-height: 1.2;
+  width: 60px;  /* Set a fixed width for both buttons */
+  text-align: center;
+  display: inline-block;
+}
+
+.btn-edit {
+  background-color: #007bff;  /* Blue color for edit button */
+  color: white;
+}
+
+.btn-delete {
+  background-color: #dc3545;  /* Red color for delete button */
+  color: white;
+}
+
+.btn-edit:hover {
+  background-color: #0056b3;  /* Darker blue on hover */
+}
+
+.btn-delete:hover {
+  background-color: #c82333;  /* Darker red on hover */
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  gap: 15px;
+}
+
+.btn-pagination {
+  padding: 10px 20px;
+  background-color: #f0f0f0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-pagination:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-pagination.btn-active {
+  background-color: #000000;
+  color: white;
+}
+
+.btn-pagination:hover:not(:disabled) {
+  background-color: #000000;
+  color: white;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 40px;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+  animation: fadeIn 0.3s ease-out forwards;
+  animation-delay: 0.25s;
+  opacity: 0;
+}
+
+/* Add more styles for form inputs, labels, etc. as needed */
+
+.hidden {
+  display: none;
+}
+
+.pagination-controls {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  animation: fadeIn 0.3s ease-out forwards;
+  opacity: 0;
+}
+
+.pagination-controls button {
+  margin: 0 5px;
+  padding: 10px 15px;
+  background-color: maroon;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.pagination-controls button.active {
+  background-color: black;
+  color: white;
+}
+
+.pagination-controls button.active:hover {
+  background-color: #800000;
+}
+
+.pagination-controls button:disabled {
+  background-color: #ddd;
+  cursor: not-allowed;
+}
+
+.pagination-controls button:hover:not(:disabled) {
+  background-color: #a00000;
+}
+
+.bg-yellow-100 {
+  background-color: #fef3c7;
+}
+
+.border-yellow-500 {
+  border-color: #f59e0b;
+}
+
+.text-yellow-700 {
+  color: #b45309;
+}
+
+.text-maroon {
+  color: #800000;
+}
+
+.label-text {
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+  display: block;
+}
+
+.input-bordered, .select-bordered, .file-input-bordered {
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  padding: 0.5rem 0.75rem;
+  width: 100%;
+}
+
+.input-bordered:focus, .select-bordered:focus, .file-input-bordered:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
+}
+
+.btn-save {
+  background-color: #000000;
+  color: #ffffff;
+}
+
+.btn-cancel {
+  background-color: #800000;
+  color: #ffffff;
+}
+
+.btn-save:hover, .btn-cancel:hover {
+  opacity: 0.9;
+}
+
+.null-value {
+  font-style: italic;
+  color: #a0a0a0;
+  font-weight: 300;
+  font-size: 0.9em;
+}
+
+/* Add this to your existing CSS */
+
+/* Style for empty table cells */
+.table td:empty::before {
+  content: 'null';
+  font-style: italic;
+  color: #a0a0a0;
+  font-weight: 300;
+  font-size: 0.9em;
+}
+
+/* Style for cells with only whitespace */
+.table td:only-child:empty::before {
+  content: 'null';
+  font-style: italic;
+  color: #a0a0a0;
+  font-weight: 300;
+  font-size: 0.9em;
+}
+
+/* Style for cells with the text "null" */
+.table td:not(:empty):not(:only-child) {
+  font-style: normal;
+  color: inherit;
+  font-weight: inherit;
+  font-size: inherit;
+}
+
+.table td:not(:empty):not(:only-child)[innerHTML="null"] {
+  font-style: italic;
+  color: #a0a0a0;
+  font-weight: 300;
+  font-size: 0.9em;
+}
+
+.no-info {
+  font-style: italic;
+  color: #a0a0a0;
+  font-weight: 300;
+  font-size: 0.9em;
+}
+
+/* If you want to ensure the buttons are on the same line */
+.btn-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+/* Animation keyframes */
+@keyframes slideDown {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Container animations */
+.container {
+  animation: slideDown 0.3s ease-out;
+}
+
+/* Header animations */
+.header {
+  animation: slideDown 0.3s ease-out;
+}
+
+/* Content animations */
+.content {
+  animation: fadeIn 0.3s ease-out forwards;
+  opacity: 0;
+}
+
+/* Form control animations */
+.form-control {
+  margin-bottom: 1.5rem;
+  animation: fadeIn 0.3s ease-out forwards;
+  opacity: 0;
+}
+
+.form-control:nth-child(1) { animation-delay: 0.05s; }
+.form-control:nth-child(2) { animation-delay: 0.1s; }
+.form-control:nth-child(3) { animation-delay: 0.15s; }
+.form-control:nth-child(4) { animation-delay: 0.2s; }
+
+/* Button container animations */
+.btn-container, .form-actions {
+  animation: fadeIn 0.3s ease-out forwards;
+  animation-delay: 0.25s;
+  opacity: 0;
+}
+
+/* Table animations */
+.table {
+  animation: fadeIn 0.3s ease-out forwards;
+  opacity: 0;
+}
+
+/* Card animations */
+.card {
+  animation: fadeIn 0.3s ease-out forwards;
+  opacity: 0;
+}
+
+/* Modal animations */
+.fixed {
+  animation: fadeIn 0.2s ease-out;
+}
+
+.bg-white.rounded-lg {
+  animation: slideDown 0.2s ease-out;
+}
+
+/* Toast/Alert animations */
+.toast, .alert {
+  animation: slideUp 0.3s ease-out;
+}
+
+/* Pagination controls animation */
+.pagination-controls {
+  animation: fadeIn 0.3s ease-out forwards;
+  opacity: 0;
+}
+
+.content-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.pagination-controls {
+  margin-top: 20px;
+}

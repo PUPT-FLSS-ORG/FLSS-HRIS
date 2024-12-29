@@ -1,0 +1,157 @@
+<div class="container bg-base-200 rounded-lg shadow-lg p-0 mx-auto max-w-7xl mb-10">
+  <div class="bg-maroon text-white p-4 rounded-t-lg w-full">
+    <h1 class="text-2xl font-bold">Coordinator Management</h1>
+  </div>
+
+  <div class="p-6 space-y-6">
+    <div class="px-4">
+      <div class="relative">
+        <input type="text" 
+               [value]="searchTerm" 
+               (input)="onDepartmentSearch($event)"
+               placeholder="Search department or coordinator.." 
+               class="w-full py-2 pl-10 pr-4 text-sm rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-maroon"
+        >
+        <span class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">
+          <i class="fas fa-search"></i>
+        </span>
+      </div>
+    </div>
+
+    <div *ngIf="loading" class="flex justify-center my-4">
+      <div class="loading loading-spinner loading-lg"></div>
+    </div>
+
+    <div *ngIf="departments.length > 0" class="px-4 pb-4">
+      <table class="table table-zebra w-full border-separate border-spacing-0">
+        <thead>
+          <tr class="bg-maroon text-white">
+            <th class="p-4 w-12 text-center">#</th> 
+            <th class="p-4 w-48 text-center">Department</th> 
+            <th class="p-4 w-48 text-center">Current Coordinator</th> 
+            <th class="p-4 w-36 text-center">Actions</th> 
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let department of filteredDepartments; let i = index" class="hover:bg-gray-100">
+            <td class="p-4 text-center">{{ i + 1 }}</td>
+            <td class="p-4">{{ department.DepartmentName }}</td>
+            <td class="p-4">
+              <ng-container *ngIf="department.Coordinator; else notAssigned">
+                <span class="font-medium text-green-600">
+                  {{ department.Coordinator.FirstName }} {{ department.Coordinator.Surname }}
+                </span>
+              </ng-container>
+              <ng-template #notAssigned>
+                <span class="text-gray-500 italic">Not assigned yet</span>
+              </ng-template>
+            </td>
+            <td class="p-4 text-center"> 
+              <div class="flex flex-col items-center space-y-2">
+                <button class="btn btn-assign btn-sm" (click)="openAssignModal(department)">Assign</button>
+                <button *ngIf="department.Coordinator" class="btn btn-remove btn-sm" (click)="removeCoordinator(department)">Remove</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div *ngIf="departments.length === 0" class="p-6 space-y-6">
+      <div class="p-6 bg-white rounded-lg shadow-lg">
+        <p class="text-lg">No departments found.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal for assigning coordinator -->
+<div *ngIf="showAssignModal" class="modal-overlay">
+  <div class="modal-content">
+    <h2 class="modal-title">Assign Coordinator for {{ selectedDepartment?.DepartmentName }}</h2>
+    <div class="modal-body">
+      <!-- Add search bar for faculty users -->
+      <div class="mb-4">
+        <div class="relative">
+          <input type="text" 
+                 [value]="facultySearchTerm" 
+                 (input)="onFacultySearch($event)"
+                 placeholder="Search faculty name..." 
+                 class="w-full py-2 pl-10 pr-4 text-sm rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-maroon"
+          >
+          <span class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">
+            <i class="fas fa-search"></i>
+          </span>
+        </div>
+      </div>
+
+      <table class="table table-zebra w-full">
+        <thead>
+          <tr class="bg-maroon text-white">
+            <th class="p-3">Name</th>
+            <th class="p-3">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of paginatedFacultyUsers" class="hover:bg-gray-100">
+            <td class="p-3">{{ user.FirstName }} {{ user.Surname }}</td>
+            <td class="p-3">
+              <button class="btn btn-assign btn-sm" 
+                      (click)="assignCoordinator(selectedDepartment!, user.UserID)">
+                Assign
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Pagination Controls -->
+      <div class="pagination-controls flex justify-center gap-2 mt-4" *ngIf="totalPages > 0">
+        <button 
+          (click)="previousPage()" 
+          [disabled]="currentPage === 1" 
+          class="btn btn-sm">
+          Previous
+        </button>
+
+        <button 
+          *ngFor="let page of pageNumbers"
+          (click)="goToPage(page)" 
+          class="btn btn-sm"
+          [class.btn-active]="page === currentPage">
+          {{ page }}
+        </button>
+
+        <button 
+          (click)="nextPage()" 
+          [disabled]="currentPage === totalPages" 
+          class="btn btn-sm">
+          Next
+        </button>
+      </div>
+
+      <!-- Add page info -->
+      <div class="text-center text-sm text-gray-600 mt-2" *ngIf="totalItems > 0">
+        Showing {{ (currentPage - 1) * itemsPerPage + 1 }} to 
+        {{ currentPage * itemsPerPage > totalItems ? totalItems : currentPage * itemsPerPage }}
+        of {{ totalItems }} entries
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-cancel" (click)="closeAssignModal()">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast Notifications -->
+<div *ngIf="showToast" class="toast toast-end">
+  <div *ngIf="toastType === 'success'" class="alert alert-success">
+    <span>{{ toastMessage }}</span>
+  </div>
+  <div *ngIf="toastType === 'error'" class="alert alert-error">
+    <span>{{ toastMessage }}</span>
+  </div>
+  <div *ngIf="toastType === 'warning'" class="alert alert-warning">
+    <span>{{ toastMessage }}</span>
+  </div>
+</div>

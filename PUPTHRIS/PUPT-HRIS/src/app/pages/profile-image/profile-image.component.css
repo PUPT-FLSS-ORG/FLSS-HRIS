@@ -1,0 +1,126 @@
+/* Profile Container Styling */
+.profile-image-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  height: 100%;
+}
+
+/* Profile Header */
+.profile-header {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+/* Profile Image */
+.profile-img-wrapper {
+  width: 100%;
+  max-width: 200px;
+  margin-bottom: 15px;
+}
+
+.profile-img {
+  width: 100%;
+  height: auto;
+  border-radius: 50%;
+  border: 2px solid #800000;
+  object-fit: cover;
+  aspect-ratio: 1 / 1;
+}
+
+/* Delete Button */
+.btn {
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  width: 100%;
+  margin-bottom: 10px;
+  text-align: center;
+  border: none;
+  outline: none;
+}
+
+.btn-update {
+  background-color: #000000;
+  color: #ffffff;
+}
+
+.btn-upload {
+  background-color: #000000;
+  color: #ffffff;
+}
+
+.btn-cancel {
+  background-color: #800000;
+  color: #ffffff;
+}
+
+.btn:hover {
+  opacity: 0.9;
+}
+
+.btn:focus {
+  outline: none;
+}
+
+/* Upload Button */
+.btn-primary:hover {
+  background-color: #333;
+  transform: translateY(-1px);
+}
+
+/* File Upload */
+.file-upload {
+  width: 100%;
+}
+
+/* Error Message */
+.error-message {
+  color: #ff0000;
+  margin-top: 10px;
+  text-align: center;
+}
+
+.mt-4 {
+  margin-top: 1rem;
+}
+
+.update-buttons {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* Toast Styling */
+.toast {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 10px 20px;
+  border-radius: 4px;
+  color: white;
+  z-index: 1000;
+  background-color: #4CAF50;
+  animation: slideUp 0.3s ease-out;
+}
+
+.toast-success {
+  background-color: #4CAF50;
+}
+
+.toast-error {
+  background-color: #F44336;
+}
+
+/* Profile Actions */
+.profile-actions {
+  width: 100%;
+}

@@ -1,0 +1,12 @@
+<div class="navbar bg-base-100">
+    <div class="flex-1 my-8">
+      <div class="text-2xl text-red-900 font-bold ml-8">
+        Welcome, {{ userFirstName }}!
+      </div>
+    </div>
+    <div class="campus-info text-lg text-gray-600 mr-8">
+      <span *ngIf="currentCampus">
+        (Current Campus: <strong>{{ currentCampus }}</strong>)
+      </span>
+    </div>
+</div>

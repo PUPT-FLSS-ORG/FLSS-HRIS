@@ -1,0 +1,266 @@
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<div class="container bg-base-200 rounded-lg shadow-lg p-0 mx-auto max-w-7xl mb-10">
+  <div class="bg-maroon text-white p-4 rounded-t-lg w-full">
+    <h1 class="text-2xl font-bold">Basic Details</h1>
+  </div>
+
+  <!-- Display Mode -->
+  <ng-container *ngIf="!isEditing; else editForm">
+    <div *ngIf="basicDetails" class="p-6">
+      <div class="bg-white rounded-lg shadow-md p-6">
+        <div class="flex">
+          <!-- Profile Image Section -->
+          <div class="w-1/4 pr-6 border-r border-gray-200">
+            <app-profile-image class="h-full"></app-profile-image>
+          </div>
+          
+          <!-- Basic Information Section -->
+          <div class="w-3/4 pl-6">
+            <h2 class="text-xl font-semibold text-maroon mb-2">Basic Information</h2>
+            <hr class="border-t border-gray-300 mb-4">
+            <div class="grid grid-cols-2 gap-4">
+              <!-- Personal Information -->
+              <div class="col-span-2">
+                <h3 class="text-lg font-medium text-maroon mb-2">Personal Information</h3>
+              </div>
+              <div class="flex flex-col pb-2 border-b border-gray-200">
+                <span class="text-gray-600 font-medium text-sm">Last Name</span>
+                <span class="text-gray-900 font-semibold">{{ basicDetails.LastName || 'No Information Entered' }}</span>
+              </div>
+              <div class="flex flex-col pb-2 border-b border-gray-200">
+                <span class="text-gray-600 font-medium text-sm">First Name</span>
+                <span class="text-gray-900 font-semibold">{{ basicDetails.FirstName || 'No Information Entered' }}</span>
+              </div>
+              <div class="flex flex-col pb-2 border-b border-gray-200">
+                <span class="text-gray-600 font-medium text-sm">Middle Name</span>
+                <span class="text-gray-900 font-semibold">{{ basicDetails.MiddleInitial || 'No Information Entered' }}</span>
+              </div>
+              <div class="flex flex-col pb-2 border-b border-gray-200">
+                <span class="text-gray-600 font-medium text-sm">Name Extension</span>
+                <span class="text-gray-900 font-semibold">{{ basicDetails.NameExtension || 'No Information Entered' }}</span>
+              </div>
+              <div class="flex flex-col pb-2 border-b border-gray-200">
+                <span class="text-gray-600 font-medium text-sm">Date of Birth</span>
+                <span class="text-gray-900 font-semibold">{{ (basicDetails.DateOfBirth | date) || 'No Information Entered' }}</span>
+              </div>
+              <div class="flex flex-col pb-2 border-b border-gray-200">
+                <span class="text-gray-600 font-medium text-sm">Sex</span>
+                <span class="text-gray-900 font-semibold">{{ basicDetails.Sex || 'No Information Entered' }}</span>
+              </div>
+
+              <!-- Employment Information -->
+              <div class="col-span-2 mt-4">
+                <h3 class="text-lg font-medium text-maroon mb-2">Employment Information</h3>
+              </div>
+              <div class="flex flex-col pb-2 border-b border-gray-200">
+                <span class="text-gray-600 font-medium text-sm">Employee Number</span>
+                <span class="text-gray-900 font-semibold">{{ basicDetails.EmployeeNo || 'No Information Entered' }}</span>
+              </div>
+              <div class="flex flex-col pb-2 border-b border-gray-200">
+                <span class="text-gray-600 font-medium text-sm">Faculty Code</span>
+                <span class="text-gray-900 font-semibold">{{ basicDetails.FacultyCode || 'No Information Entered' }}</span>
+              </div>
+              <div class="flex flex-col pb-2 border-b border-gray-200">
+                <span class="text-gray-600 font-medium text-sm">Honorific</span>
+                <span class="text-gray-900 font-semibold">{{ basicDetails.Honorific || 'N/A' }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="flex justify-end mt-6">
+        <button class="btn bg-black text-white hover:bg-gray-800" (click)="edit()">Edit</button>
+      </div>
+    </div>
+
+    <div *ngIf="!basicDetails" class="p-6 space-y-6">
+      <div class="bg-white rounded-lg shadow-md p-6">
+        <p class="text-lg">No basic details available.</p>
+      </div>
+      <div class="flex justify-end">
+        <button class="btn btn-add-info bg-black text-white" (click)="edit()">Add Info</button>
+      </div>
+    </div>
+  </ng-container>
+
+  <!-- Edit Mode -->
+  <ng-template #editForm>
+    <div class="p-6">
+      <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-4" role="alert">
+        <p class="font-bold">Note: You are currently editing your Basic Details.</p>
+      </div>
+      <form [formGroup]="basicDetailsForm" (ngSubmit)="onSubmit()" class="space-y-6">
+        <div class="bg-white rounded-lg shadow-md p-6">
+          <p class="text-sm text-gray-600 mb-4">Note: Fields marked with an asterisk (*) are required.</p>
+          
+          <!-- Personal Information -->
+          <h3 class="text-xl font-semibold text-maroon mb-4">Personal Information</h3>
+          <div class="grid grid-cols-2 gap-6">
+            <!-- Last Name (Required) -->
+            <div class="form-control">
+              <label class="label">
+                <span class="label-text">Last Name <span class="text-red-500">*</span></span>
+              </label>
+              <input 
+                formControlName="LastName" 
+                class="input input-bordered w-full" 
+                [ngClass]="{'input-error': basicDetailsForm.get('LastName')?.invalid && basicDetailsForm.get('LastName')?.touched}" 
+                type="text" 
+                placeholder="Last name of the employee"
+              >
+              <label class="label" *ngIf="basicDetailsForm.get('LastName')?.invalid && basicDetailsForm.get('LastName')?.touched">
+                <span class="label-text-alt text-error">Last Name is required</span>
+              </label>
+            </div>
+
+            <!-- First Name (Required) -->
+            <div class="form-control">
+              <label class="label">
+                <span class="label-text">First Name <span class="text-red-500">*</span></span>
+              </label>
+              <input 
+                formControlName="FirstName" 
+                class="input input-bordered w-full" 
+                [ngClass]="{'input-error': basicDetailsForm.get('FirstName')?.invalid && basicDetailsForm.get('FirstName')?.touched}" 
+                type="text" 
+                placeholder="Complete given name of the employee"
+              >
+              <label class="label" *ngIf="basicDetailsForm.get('FirstName')?.invalid && basicDetailsForm.get('FirstName')?.touched">
+                <span class="label-text-alt text-error">First Name is required</span>
+              </label>
+            </div>
+
+            <div class="form-control">
+              <label class="label">
+                <span class="label-text">Middle Name</span>
+              </label>
+              <input 
+                formControlName="MiddleInitial" 
+                class="input input-bordered w-full" 
+                type="text" 
+                placeholder="Middle Name"
+              >
+            </div>
+
+            <!-- Name Extension (Optional) -->
+            <div class="form-control">
+              <label class="label">
+                <span class="label-text">Name Extension</span>
+              </label>
+              <input 
+                formControlName="NameExtension" 
+                class="input input-bordered w-full" 
+                type="text" 
+                placeholder="(e.g., Jr., Sr., III)"
+              >
+            </div>
+
+            <!-- Date of Birth (Required) -->
+            <div class="form-control">
+              <label class="label">
+                <span class="label-text">Date of Birth <span class="text-red-500">*</span></span>
+              </label>
+              <input 
+                formControlName="DateOfBirth" 
+                class="input input-bordered w-full" 
+                [ngClass]="{'input-error': basicDetailsForm.get('DateOfBirth')?.invalid && basicDetailsForm.get('DateOfBirth')?.touched}" 
+                type="date" 
+              >
+              <label class="label" *ngIf="basicDetailsForm.get('DateOfBirth')?.invalid && basicDetailsForm.get('DateOfBirth')?.touched">
+                <span class="label-text-alt text-error">Date of Birth is required</span>
+              </label>
+            </div>
+
+            <!-- Sex (Required) -->
+            <div class="form-control">
+              <label class="label">
+                <span class="label-text">Sex <span class="text-red-500">*</span></span>
+              </label>
+              <select 
+                formControlName="Sex" 
+                class="select select-bordered w-full" 
+                [ngClass]="{'select-error': basicDetailsForm.get('Sex')?.invalid && basicDetailsForm.get('Sex')?.touched}"
+              >
+                <option value="">Select your Sex</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+              </select>
+              <label class="label" *ngIf="basicDetailsForm.get('Sex')?.invalid && basicDetailsForm.get('Sex')?.touched">
+                <span class="label-text-alt text-error">Sex is required</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Employment Information -->
+          <h3 class="text-xl font-semibold text-maroon mb-4 mt-8">Employment Information</h3>
+          <div class="grid grid-cols-2 gap-6">
+            <!-- Employee Number (Required) -->
+            <div class="form-control">
+              <label class="label">
+                <span class="label-text">Employee Number <span class="text-red-500">*</span></span>
+              </label>
+              <input 
+                formControlName="EmployeeNo" 
+                class="input input-bordered w-full" 
+                [ngClass]="{'input-error': basicDetailsForm.get('EmployeeNo')?.invalid && basicDetailsForm.get('EmployeeNo')?.touched}" 
+                type="text" 
+                placeholder="Can be seen at the back of PUP ID"
+              >
+              <label class="label" *ngIf="basicDetailsForm.get('EmployeeNo')?.invalid && basicDetailsForm.get('EmployeeNo')?.touched">
+                <span class="label-text-alt text-error">Employee Number is required</span>
+              </label>
+            </div>
+
+            <!-- Faculty Code (Optional) -->
+            <div class="form-control">
+              <label class="label">
+                <span class="label-text">Faculty Code</span>
+              </label>
+              <input 
+                formControlName="FacultyCode" 
+                class="input input-bordered w-full" 
+                type="text" 
+                placeholder="Your Faculty Code from your SIS Account"
+              >
+            </div>
+
+            <!-- Honorific (Optional) -->
+            <div class="form-control">
+              <label class="label">
+                <span class="label-text">Honorific</span>
+              </label>
+              <input 
+                formControlName="Honorific" 
+                class="input input-bordered w-full" 
+                type="text" 
+                placeholder="Preferred and appropriate honorific (e.g., Mr., Ms., Dr.)"
+              >
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex justify-end mt-6">
+          <button type="submit" class="btn bg-black text-white hover:bg-gray-800 mr-4">Save</button>
+          <button type="button" class="btn bg-maroon text-white hover:bg-red-900" (click)="cancelEdit()">Cancel</button>
+        </div>        
+      </form>
+    </div>
+  </ng-template>
+</div>
+
+<app-academic-rank></app-academic-rank>
+
+<!-- Toast Notifications -->
+<div *ngIf="showToast" class="toast toast-end">
+  <div *ngIf="toastType === 'success'" class="alert alert-success">
+    <span>{{ toastMessage }}</span>
+  </div>
+  <div *ngIf="toastType === 'error'" class="alert alert-error">
+    <span>{{ toastMessage }}</span>
+  </div>
+  <div *ngIf="toastType === 'warning'" class="alert alert-warning">
+    <span>{{ toastMessage }}</span>
+  </div>
+</div>
